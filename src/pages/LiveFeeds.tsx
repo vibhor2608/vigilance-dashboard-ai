@@ -2,23 +2,29 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { 
-  Camera, 
-  Maximize2, 
-  AlertTriangle, 
-  Eye, 
-  MapPin, 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Camera,
+  Maximize2,
+  AlertTriangle,
+  Eye,
+  MapPin,
   Wifi,
   WifiOff,
   Play,
-  Pause
+  Pause,
 } from "lucide-react";
 
 interface CameraFeed {
   id: string;
   name: string;
   location: string;
+  img: string;
   status: "online" | "offline" | "warning";
   hasAlert: boolean;
   detections: Array<{
@@ -39,15 +45,17 @@ export default function LiveFeeds() {
       location: "Building A - Entry",
       status: "online",
       hasAlert: false,
-      detections: []
+      detections: [],
+      img: "/cctv1.jpg",
     },
     {
       id: "CAM-02",
       name: "Reception Desk",
       location: "Building A - Lobby",
-      status: "online", 
+      status: "online",
       hasAlert: false,
-      detections: []
+      detections: [],
+      img: "/cctv2.png",
     },
     {
       id: "CAM-03",
@@ -56,8 +64,9 @@ export default function LiveFeeds() {
       status: "online",
       hasAlert: true,
       detections: [
-        { type: "Pistol", confidence: 87, box: [120, 80, 240, 180] }
-      ]
+        { type: "Pistol", confidence: 87, box: [120, 80, 240, 180] },
+      ],
+      img: "/cctv4.png",
     },
     {
       id: "CAM-04",
@@ -65,7 +74,8 @@ export default function LiveFeeds() {
       location: "Building B - Rear",
       status: "warning",
       hasAlert: false,
-      detections: []
+      detections: [],
+      img: "/cctv3.png",
     },
     {
       id: "CAM-05",
@@ -73,51 +83,34 @@ export default function LiveFeeds() {
       location: "Building A - Floor 2",
       status: "offline",
       hasAlert: false,
-      detections: []
+      detections: [],
+      img: "/cctv5.png",
     },
-    {
-      id: "CAM-06",
-      name: "Cafeteria",
-      location: "Building A - Floor 1",
-      status: "online",
-      hasAlert: false,
-      detections: []
-    },
-    {
-      id: "CAM-07",
-      name: "Loading Bay",
-      location: "Building C - Rear",
-      status: "online",
-      hasAlert: true,
-      detections: [
-        { type: "Knife", confidence: 92, box: [180, 120, 280, 220] }
-      ]
-    },
-    {
-      id: "CAM-08",
-      name: "Conference Room",
-      location: "Building A - Floor 3",
-      status: "online",
-      hasAlert: false,
-      detections: []
-    }
   ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "online": return "success";
-      case "warning": return "warning";
-      case "offline": return "destructive";
-      default: return "secondary";
+      case "online":
+        return "success";
+      case "warning":
+        return "warning";
+      case "offline":
+        return "destructive";
+      default:
+        return "secondary";
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case "online": return <Wifi className="h-3 w-3" />;
-      case "warning": return <AlertTriangle className="h-3 w-3" />;
-      case "offline": return <WifiOff className="h-3 w-3" />;
-      default: return <Eye className="h-3 w-3" />;
+      case "online":
+        return <Wifi className="h-3 w-3" />;
+      case "warning":
+        return <AlertTriangle className="h-3 w-3" />;
+      case "offline":
+        return <WifiOff className="h-3 w-3" />;
+      default:
+        return <Eye className="h-3 w-3" />;
     }
   };
 
@@ -126,16 +119,24 @@ export default function LiveFeeds() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Live Camera Feeds</h1>
-          <p className="text-muted-foreground">Real-time surveillance with AI weapon detection</p>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Live Camera Feeds
+          </h1>
+          <p className="text-muted-foreground">
+            Real-time surveillance with AI weapon detection
+          </p>
         </div>
         <div className="flex items-center gap-4">
-          <Button 
+          <Button
             variant={isPlaying ? "outline" : "default"}
             onClick={() => setIsPlaying(!isPlaying)}
             className="flex items-center gap-2"
           >
-            {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+            {isPlaying ? (
+              <Pause className="h-4 w-4" />
+            ) : (
+              <Play className="h-4 w-4" />
+            )}
             {isPlaying ? "Pause All" : "Resume All"}
           </Button>
           <div className="flex items-center gap-2 text-sm">
@@ -148,8 +149,8 @@ export default function LiveFeeds() {
       {/* Feed Grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {cameraFeeds.map((feed) => (
-          <Card 
-            key={feed.id} 
+          <Card
+            key={feed.id}
             className={`cursor-pointer transition-all hover:scale-105 ${
               feed.hasAlert ? "ring-2 ring-destructive/50 bg-destructive/5" : ""
             }`}
@@ -157,8 +158,10 @@ export default function LiveFeeds() {
           >
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-medium truncate">{feed.name}</CardTitle>
-                <Badge 
+                <CardTitle className="text-sm font-medium truncate">
+                  {feed.name}
+                </CardTitle>
+                <Badge
                   variant={getStatusColor(feed.status) as any}
                   className="flex items-center gap-1"
                 >
@@ -171,32 +174,42 @@ export default function LiveFeeds() {
                 {feed.location}
               </p>
             </CardHeader>
-            
+
             <CardContent className="pb-3">
               {/* Mock Video Feed */}
               <div className="relative bg-gradient-to-br from-muted/50 to-muted/80 rounded-lg aspect-video mb-3 overflow-hidden">
-                <div className="absolute inset-0 bg-[url('/placeholder.svg')] bg-cover bg-center opacity-30" />
-                
+                <img
+                  src={feed.img}
+                  alt={`${feed.name} Feed`}
+                  className="absolute inset-0 w-full h-full object-cover opacity-70"
+                />
+
                 {/* Status Overlay */}
                 {feed.status === "offline" && (
                   <div className="absolute inset-0 bg-destructive/20 flex items-center justify-center">
                     <div className="text-center">
                       <WifiOff className="h-8 w-8 text-destructive mx-auto mb-2" />
-                      <p className="text-sm text-destructive font-medium">Feed Offline</p>
+                      <p className="text-sm text-destructive font-medium">
+                        Feed Offline
+                      </p>
                     </div>
                   </div>
                 )}
-                
+
                 {/* Detection Boxes */}
                 {feed.detections.map((detection, idx) => (
-                  <div 
+                  <div
                     key={idx}
                     className="absolute border-2 border-destructive bg-destructive/10 rounded"
                     style={{
                       left: `${(detection.box[0] / 400) * 100}%`,
                       top: `${(detection.box[1] / 300) * 100}%`,
-                      width: `${((detection.box[2] - detection.box[0]) / 400) * 100}%`,
-                      height: `${((detection.box[3] - detection.box[1]) / 300) * 100}%`
+                      width: `${
+                        ((detection.box[2] - detection.box[0]) / 400) * 100
+                      }%`,
+                      height: `${
+                        ((detection.box[3] - detection.box[1]) / 300) * 100
+                      }%`,
                     }}
                   >
                     <div className="absolute -top-6 left-0 bg-destructive text-destructive-foreground text-xs px-2 py-1 rounded">
@@ -204,29 +217,29 @@ export default function LiveFeeds() {
                     </div>
                   </div>
                 ))}
-                
+
                 {/* Alert Indicator */}
                 {feed.hasAlert && (
                   <div className="absolute top-2 right-2">
                     <AlertTriangle className="h-6 w-6 text-destructive animate-pulse" />
                   </div>
                 )}
-                
+
                 {/* Feed ID */}
                 <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
                   {feed.id}
                 </div>
-                
+
                 {/* Expand Button */}
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   size="sm"
                   className="absolute bottom-2 right-2 bg-black/50 text-white hover:bg-black/70"
                 >
                   <Maximize2 className="h-4 w-4" />
                 </Button>
               </div>
-              
+
               {/* Feed Info */}
               <div className="flex items-center justify-between text-xs">
                 <span className="text-muted-foreground flex items-center gap-1">
@@ -235,7 +248,8 @@ export default function LiveFeeds() {
                 </span>
                 {feed.detections.length > 0 && (
                   <Badge variant="destructive" className="text-xs">
-                    {feed.detections.length} Detection{feed.detections.length > 1 ? 's' : ''}
+                    {feed.detections.length} Detection
+                    {feed.detections.length > 1 ? "s" : ""}
                   </Badge>
                 )}
               </div>
@@ -253,23 +267,31 @@ export default function LiveFeeds() {
               {selectedFeed?.name} - {selectedFeed?.id}
             </DialogTitle>
           </DialogHeader>
-          
+
           {selectedFeed && (
             <div className="flex-1 space-y-4">
               {/* Large Feed View */}
               <div className="relative bg-gradient-to-br from-muted/50 to-muted/80 rounded-lg aspect-video overflow-hidden">
-                <div className="absolute inset-0 bg-[url('/placeholder.svg')] bg-cover bg-center opacity-30" />
-                
+                <img
+                  src={selectedFeed.img}
+                  alt={`${selectedFeed.name} Feed`}
+                  className="absolute inset-0 w-full h-full object-cover opacity-70"
+                />
+
                 {/* Detection Boxes */}
                 {selectedFeed.detections.map((detection, idx) => (
-                  <div 
+                  <div
                     key={idx}
                     className="absolute border-4 border-destructive bg-destructive/20 rounded"
                     style={{
                       left: `${(detection.box[0] / 400) * 100}%`,
                       top: `${(detection.box[1] / 300) * 100}%`,
-                      width: `${((detection.box[2] - detection.box[0]) / 400) * 100}%`,
-                      height: `${((detection.box[3] - detection.box[1]) / 300) * 100}%`
+                      width: `${
+                        ((detection.box[2] - detection.box[0]) / 400) * 100
+                      }%`,
+                      height: `${
+                        ((detection.box[3] - detection.box[1]) / 300) * 100
+                      }%`,
                     }}
                   >
                     <div className="absolute -top-8 left-0 bg-destructive text-destructive-foreground text-sm px-3 py-1 rounded">
@@ -277,23 +299,29 @@ export default function LiveFeeds() {
                     </div>
                   </div>
                 ))}
-                
+
                 {/* Feed Info Overlay */}
                 <div className="absolute top-4 left-4 bg-black/70 text-white p-3 rounded-lg">
                   <p className="font-medium">{selectedFeed.location}</p>
-                  <p className="text-sm opacity-90">Resolution: 1920x1080 • 30 FPS</p>
+                  <p className="text-sm opacity-90">
+                    Resolution: 1920x1080 • 30 FPS
+                  </p>
                   <p className="text-xs opacity-75">Last Update: Live</p>
                 </div>
               </div>
-              
+
               {/* Alert Actions */}
               {selectedFeed.hasAlert && (
                 <div className="flex items-center gap-4 p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
                   <AlertTriangle className="h-6 w-6 text-destructive" />
                   <div className="flex-1">
-                    <p className="font-medium text-destructive">Weapon Detection Alert</p>
+                    <p className="font-medium text-destructive">
+                      Weapon Detection Alert
+                    </p>
                     <p className="text-sm text-muted-foreground">
-                      {selectedFeed.detections.length} threat{selectedFeed.detections.length > 1 ? 's' : ''} detected - Immediate response required
+                      {selectedFeed.detections.length} threat
+                      {selectedFeed.detections.length > 1 ? "s" : ""} detected -
+                      Immediate response required
                     </p>
                   </div>
                   <div className="flex gap-2">

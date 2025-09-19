@@ -3,20 +3,30 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { 
-  Archive, 
-  Download, 
-  Calendar as CalendarIcon, 
-  Search, 
-  Filter, 
-  Video, 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Archive,
+  Download,
+  Calendar as CalendarIcon,
+  Search,
+  Filter,
+  Video,
   Image,
   FileText,
   Eye,
-  Share2
+  Share2,
 } from "lucide-react";
 
 interface EvidenceItem {
@@ -51,31 +61,31 @@ export default function EvidenceArchive() {
       timestamp: "2024-09-18 14:32:15",
       cameraId: "CAM-03",
       location: "Main Entrance - Building A",
-      weaponType: "Pistol",
+      weaponType: "Rifle",
       confidence: 87,
       threatScore: 85,
-      thumbnailUrl: "/placeholder.svg",
+      thumbnailUrl: "/cctv1.jpg",
       videoUrl: "/evidence/video-001.mp4",
       reportUrl: "/evidence/report-001.pdf",
       fileSize: "45.2 MB",
       duration: "2:15",
-      status: "available"
+      status: "available",
     },
     {
       id: "EVD-2024-002",
       alertId: "ALT-2024-002",
-      timestamp: "2024-09-18 14:28:42", 
+      timestamp: "2024-09-18 14:28:42",
       cameraId: "CAM-07",
       location: "Parking Lot - Gate B",
       weaponType: "Knife",
       confidence: 92,
       threatScore: 72,
-      thumbnailUrl: "/placeholder.svg",
+      thumbnailUrl: "/cctv2.png",
       videoUrl: "/evidence/video-002.mp4",
       reportUrl: "/evidence/report-002.pdf",
       fileSize: "32.8 MB",
       duration: "1:45",
-      status: "available"
+      status: "available",
     },
     {
       id: "EVD-2024-003",
@@ -86,12 +96,12 @@ export default function EvidenceArchive() {
       weaponType: "Rifle",
       confidence: 95,
       threatScore: 95,
-      thumbnailUrl: "/placeholder.svg",
+      thumbnailUrl: "/cctv3.png",
       videoUrl: "/evidence/video-003.mp4",
       reportUrl: "/evidence/report-003.pdf",
       fileSize: "67.1 MB",
       duration: "3:22",
-      status: "available"
+      status: "available",
     },
     {
       id: "EVD-2024-004",
@@ -101,30 +111,30 @@ export default function EvidenceArchive() {
       location: "Emergency Exit - Building C",
       weaponType: "Pistol",
       confidence: 78,
-      threatScore: 65,
-      thumbnailUrl: "/placeholder.svg",
+      threatScore: 92,
+      thumbnailUrl: "/cctv4.png",
       videoUrl: "/evidence/video-004.mp4",
       reportUrl: "/evidence/report-004.pdf",
       fileSize: "28.5 MB",
       duration: "1:30",
-      status: "archived"
+      status: "archived",
     },
     {
       id: "EVD-2024-005",
       alertId: "ALT-2024-005",
       timestamp: "2024-09-18 13:20:15",
       cameraId: "CAM-05",
-      location: "Server Room - Building A", 
+      location: "Server Room - Building A",
       weaponType: "Knife",
       confidence: 89,
-      threatScore: 80,
-      thumbnailUrl: "/placeholder.svg",
+      threatScore: 70,
+      thumbnailUrl: "/cctv5.png`",
       videoUrl: "/evidence/video-005.mp4",
       reportUrl: "/evidence/report-005.pdf",
       fileSize: "41.7 MB",
       duration: "2:05",
-      status: "processing"
-    }
+      status: "processing",
+    },
   ];
 
   const getSeverityLevel = (threatScore: number) => {
@@ -136,29 +146,41 @@ export default function EvidenceArchive() {
   const getSeverityColor = (threatScore: number) => {
     const level = getSeverityLevel(threatScore);
     switch (level) {
-      case "high": return "destructive";
-      case "medium": return "warning";
-      default: return "secondary";
+      case "high":
+        return "destructive";
+      case "medium":
+        return "warning";
+      default:
+        return "secondary";
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "available": return "success";
-      case "processing": return "warning";
-      case "archived": return "secondary";
-      default: return "default";
+      case "available":
+        return "success";
+      case "processing":
+        return "warning";
+      case "archived":
+        return "secondary";
+      default:
+        return "default";
     }
   };
 
-  const filteredItems = evidenceItems.filter(item => {
-    const matchesWeapon = selectedWeapon === "all" || item.weaponType.toLowerCase() === selectedWeapon;
-    const matchesSeverity = selectedSeverity === "all" || getSeverityLevel(item.threatScore) === selectedSeverity;
-    const matchesSearch = searchTerm === "" || 
+  const filteredItems = evidenceItems.filter((item) => {
+    const matchesWeapon =
+      selectedWeapon === "all" ||
+      item.weaponType.toLowerCase() === selectedWeapon;
+    const matchesSeverity =
+      selectedSeverity === "all" ||
+      getSeverityLevel(item.threatScore) === selectedSeverity;
+    const matchesSearch =
+      searchTerm === "" ||
       item.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.alertId.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.location.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     return matchesWeapon && matchesSeverity && matchesSearch;
   });
 
@@ -172,8 +194,12 @@ export default function EvidenceArchive() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Evidence Archive</h1>
-          <p className="text-muted-foreground">Forensic evidence packages from weapon detections</p>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Evidence Archive
+          </h1>
+          <p className="text-muted-foreground">
+            Forensic evidence packages from weapon detections
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm">
@@ -190,7 +216,9 @@ export default function EvidenceArchive() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Evidence</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Evidence
+            </CardTitle>
             <Archive className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -206,7 +234,7 @@ export default function EvidenceArchive() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-success">
-              {evidenceItems.filter(i => i.status === "available").length}
+              {evidenceItems.filter((i) => i.status === "available").length}
             </div>
             <p className="text-xs text-muted-foreground">Ready for download</p>
           </CardContent>
@@ -219,7 +247,7 @@ export default function EvidenceArchive() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-warning">
-              {evidenceItems.filter(i => i.status === "processing").length}
+              {evidenceItems.filter((i) => i.status === "processing").length}
             </div>
             <p className="text-xs text-muted-foreground">Being processed</p>
           </CardContent>
@@ -256,7 +284,7 @@ export default function EvidenceArchive() {
                 className="pl-8"
               />
             </div>
-            
+
             <Select value={selectedWeapon} onValueChange={setSelectedWeapon}>
               <SelectTrigger>
                 <SelectValue placeholder="Weapon type" />
@@ -269,7 +297,10 @@ export default function EvidenceArchive() {
               </SelectContent>
             </Select>
 
-            <Select value={selectedSeverity} onValueChange={setSelectedSeverity}>
+            <Select
+              value={selectedSeverity}
+              onValueChange={setSelectedSeverity}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Severity" />
               </SelectTrigger>
@@ -283,7 +314,10 @@ export default function EvidenceArchive() {
 
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="justify-start text-left font-normal">
+                <Button
+                  variant="outline"
+                  className="justify-start text-left font-normal"
+                >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {dateFrom ? dateFrom.toLocaleDateString() : "From date"}
                 </Button>
@@ -300,7 +334,10 @@ export default function EvidenceArchive() {
 
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="justify-start text-left font-normal">
+                <Button
+                  variant="outline"
+                  className="justify-start text-left font-normal"
+                >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {dateTo ? dateTo.toLocaleDateString() : "To date"}
                 </Button>
@@ -321,30 +358,33 @@ export default function EvidenceArchive() {
       {/* Evidence Grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredItems.map((item) => (
-          <Card key={item.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+          <Card
+            key={item.id}
+            className="overflow-hidden hover:shadow-lg transition-shadow"
+          >
             <div className="relative">
-              <img 
-                src={item.thumbnailUrl} 
+              <img
+                src={item.thumbnailUrl}
                 alt="Evidence thumbnail"
                 className="w-full h-40 object-cover bg-muted"
               />
-              
+
               {/* Status Badge */}
-              <Badge 
+              <Badge
                 variant={getStatusColor(item.status) as any}
                 className="absolute top-2 left-2"
               >
                 {item.status.toUpperCase()}
               </Badge>
-              
+
               {/* Severity Badge */}
-              <Badge 
+              <Badge
                 variant={getSeverityColor(item.threatScore) as any}
                 className="absolute top-2 right-2"
               >
                 {getSeverityLevel(item.threatScore).toUpperCase()}
               </Badge>
-              
+
               {/* Play button overlay */}
               <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
                 <Button variant="secondary" size="sm">
@@ -353,7 +393,7 @@ export default function EvidenceArchive() {
                 </Button>
               </div>
             </div>
-            
+
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-sm font-medium">{item.id}</CardTitle>
@@ -363,7 +403,7 @@ export default function EvidenceArchive() {
               </div>
               <p className="text-xs text-muted-foreground">{item.location}</p>
             </CardHeader>
-            
+
             <CardContent className="space-y-3">
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div>
@@ -383,15 +423,15 @@ export default function EvidenceArchive() {
                   <p className="font-medium">{item.fileSize}</p>
                 </div>
               </div>
-              
+
               <div className="text-xs text-muted-foreground">
                 {new Date(item.timestamp).toLocaleString()}
               </div>
-              
+
               <div className="flex gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <Button
+                  variant="outline"
+                  size="sm"
                   className="flex-1"
                   disabled={item.status === "processing"}
                   onClick={() => downloadEvidence(item)}
@@ -415,14 +455,20 @@ export default function EvidenceArchive() {
         <Card>
           <CardContent className="text-center py-8">
             <Archive className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <p className="text-muted-foreground">No evidence packages match your current filters</p>
-            <Button variant="outline" className="mt-4" onClick={() => {
-              setSearchTerm("");
-              setSelectedWeapon("all");
-              setSelectedSeverity("all");
-              setDateFrom(undefined);
-              setDateTo(undefined);
-            }}>
+            <p className="text-muted-foreground">
+              No evidence packages match your current filters
+            </p>
+            <Button
+              variant="outline"
+              className="mt-4"
+              onClick={() => {
+                setSearchTerm("");
+                setSelectedWeapon("all");
+                setSelectedSeverity("all");
+                setDateFrom(undefined);
+                setDateTo(undefined);
+              }}
+            >
               Clear Filters
             </Button>
           </CardContent>

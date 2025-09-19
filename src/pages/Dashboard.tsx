@@ -2,15 +2,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { 
-  Camera, 
-  AlertTriangle, 
-  Shield, 
-  Activity, 
+import {
+  Camera,
+  AlertTriangle,
+  Shield,
+  Activity,
   MapPin,
   Clock,
   Eye,
-  TrendingUp
+  TrendingUp,
 } from "lucide-react";
 
 export default function Dashboard() {
@@ -22,16 +22,16 @@ export default function Dashboard() {
       weapon: "Pistol",
       confidence: 87,
       timestamp: "2 min ago",
-      severity: "high"
+      severity: "high",
     },
     {
-      id: "ALT-002", 
+      id: "ALT-002",
       camera: "CAM-07",
       location: "Parking Lot",
       weapon: "Knife",
       confidence: 92,
       timestamp: "8 min ago",
-      severity: "medium"
+      severity: "medium",
     },
     {
       id: "ALT-003",
@@ -39,24 +39,30 @@ export default function Dashboard() {
       location: "Reception",
       weapon: "Rifle",
       confidence: 95,
-      timestamp: "15 min ago", 
-      severity: "high"
-    }
+      timestamp: "15 min ago",
+      severity: "high",
+    },
   ];
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case "high": return "destructive";
-      case "medium": return "warning";
-      default: return "secondary";
+      case "high":
+        return "destructive";
+      case "medium":
+        return "warning";
+      default:
+        return "secondary";
     }
   };
 
   const getSeverityBg = (severity: string) => {
     switch (severity) {
-      case "high": return "bg-destructive/10 border-destructive/20";
-      case "medium": return "bg-warning/10 border-warning/20";
-      default: return "bg-muted/50";
+      case "high":
+        return "bg-destructive/10 border-destructive/20";
+      case "medium":
+        return "bg-warning/10 border-warning/20";
+      default:
+        return "bg-muted/50";
     }
   };
 
@@ -65,12 +71,18 @@ export default function Dashboard() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Defense Dashboard</h1>
-          <p className="text-muted-foreground">Real-time weapon detection and threat monitoring</p>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Defense Dashboard
+          </h1>
+          <p className="text-muted-foreground">
+            Real-time weapon detection and threat monitoring
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <div className="h-2 w-2 bg-success rounded-full animate-pulse" />
-          <span className="text-sm text-muted-foreground">All Systems Operational</span>
+          <span className="text-sm text-muted-foreground">
+            All Systems Operational
+          </span>
         </div>
       </div>
 
@@ -78,14 +90,14 @@ export default function Dashboard() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card className="bg-gradient-to-br from-card to-card/50">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Cameras</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Active Cameras
+            </CardTitle>
             <Camera className="h-4 w-4 text-success" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">12/14</div>
-            <p className="text-xs text-muted-foreground">
-              +2 since last hour
-            </p>
+            <div className="text-2xl font-bold">5/6</div>
+            <p className="text-xs text-muted-foreground">+2 since last hour</p>
             <Progress value={85.7} className="mt-2 h-2" />
           </CardContent>
         </Card>
@@ -105,14 +117,14 @@ export default function Dashboard() {
 
         <Card className="bg-gradient-to-br from-card to-card/50">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">24h Detections</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              24h Detections
+            </CardTitle>
             <Shield className="h-4 w-4 text-warning" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">27</div>
-            <p className="text-xs text-muted-foreground">
-              +12% from yesterday
-            </p>
+            <p className="text-xs text-muted-foreground">+12% from yesterday</p>
           </CardContent>
         </Card>
 
@@ -123,9 +135,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-success">98.2%</div>
-            <p className="text-xs text-muted-foreground">
-              Uptime this month
-            </p>
+            <p className="text-xs text-muted-foreground">Uptime this month</p>
           </CardContent>
         </Card>
       </div>
@@ -142,9 +152,11 @@ export default function Dashboard() {
           <CardContent>
             <div className="space-y-4">
               {alerts.map((alert) => (
-                <div 
-                  key={alert.id} 
-                  className={`p-4 rounded-lg border ${getSeverityBg(alert.severity)}`}
+                <div
+                  key={alert.id}
+                  className={`p-4 rounded-lg border ${getSeverityBg(
+                    alert.severity
+                  )}`}
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
@@ -158,7 +170,7 @@ export default function Dashboard() {
                       {alert.timestamp}
                     </span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-medium">{alert.weapon} detected</p>
@@ -175,10 +187,12 @@ export default function Dashboard() {
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-medium">{alert.confidence}%</p>
-                      <p className="text-xs text-muted-foreground">confidence</p>
+                      <p className="text-xs text-muted-foreground">
+                        confidence
+                      </p>
                     </div>
                   </div>
-                  
+
                   <div className="mt-3 flex gap-2">
                     <Button size="sm" variant="outline" className="flex-1">
                       Review
@@ -189,7 +203,7 @@ export default function Dashboard() {
                   </div>
                 </div>
               ))}
-              
+
               <Button variant="outline" className="w-full mt-4">
                 View All Alerts
               </Button>
@@ -216,27 +230,33 @@ export default function Dashboard() {
                   </div>
                   <Badge variant="destructive">HIGH RISK</Badge>
                 </div>
-                
+
                 <div className="flex items-center justify-between p-3 bg-warning/10 border border-warning/20 rounded-lg">
                   <div>
                     <p className="font-medium">Parking Lot</p>
                     <p className="text-sm text-muted-foreground">Zone B2</p>
                   </div>
-                  <Badge variant="secondary" className="bg-warning/20 text-warning-foreground">
+                  <Badge
+                    variant="secondary"
+                    className="bg-warning/20 text-warning-foreground"
+                  >
                     MEDIUM
                   </Badge>
                 </div>
-                
+
                 <div className="flex items-center justify-between p-3 bg-success/10 border border-success/20 rounded-lg">
                   <div>
                     <p className="font-medium">Office Area</p>
                     <p className="text-sm text-muted-foreground">Zone C3</p>
                   </div>
-                  <Badge variant="secondary" className="bg-success/20 text-success-foreground">
+                  <Badge
+                    variant="secondary"
+                    className="bg-success/20 text-success-foreground"
+                  >
                     LOW
                   </Badge>
                 </div>
-                
+
                 <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                   <div>
                     <p className="font-medium">Server Room</p>
@@ -245,9 +265,11 @@ export default function Dashboard() {
                   <Badge variant="secondary">SECURE</Badge>
                 </div>
               </div>
-              
+
               <div className="pt-4 border-t">
-                <p className="text-sm text-muted-foreground mb-2">Risk Assessment</p>
+                <p className="text-sm text-muted-foreground mb-2">
+                  Risk Assessment
+                </p>
                 <div className="grid grid-cols-3 gap-2 text-xs">
                   <div className="text-center p-2 bg-destructive/10 rounded">
                     <p className="font-medium text-destructive">3</p>
