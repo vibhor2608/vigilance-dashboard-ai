@@ -3,20 +3,39 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { 
-  AlertTriangle, 
-  Search, 
-  Filter, 
-  Eye, 
-  Check, 
-  X, 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  AlertTriangle,
+  Search,
+  Filter,
+  Eye,
+  Check,
+  X,
   UserCheck,
   Clock,
   MapPin,
-  Camera
+  Camera,
 } from "lucide-react";
 
 interface Alert {
@@ -44,37 +63,37 @@ export default function Alerts() {
       id: "ALT-2024-001",
       timestamp: "2024-09-18 14:32:15",
       cameraId: "CAM-03",
-      location: "Main Entrance - Building A",
+      location: "Car Parking - Building A",
       weaponType: "Pistol",
       confidence: 87,
       threatScore: 85,
       status: "pending",
-      imageUrl: "/placeholder.svg"
+      imageUrl: "/cctv4.png",
     },
     {
-      id: "ALT-2024-002", 
+      id: "ALT-2024-002",
       timestamp: "2024-09-18 14:28:42",
       cameraId: "CAM-07",
-      location: "Parking Lot - Gate B",
+      location: "Room 204 - Building B",
       weaponType: "Knife",
       confidence: 92,
       threatScore: 72,
       status: "investigating",
       assignedTo: "Officer Johnson",
-      imageUrl: "/placeholder.svg"
+      imageUrl: "/cctv5.png",
     },
     {
       id: "ALT-2024-003",
       timestamp: "2024-09-18 14:15:08",
       cameraId: "CAM-01",
-      location: "Reception - Building A",
+      location: "Main Gate ",
       weaponType: "Rifle",
       confidence: 95,
       threatScore: 95,
       status: "confirmed",
       assignedTo: "Sgt. Williams",
-      imageUrl: "/placeholder.svg",
-      notes: "Security team responded. Suspect apprehended."
+      imageUrl: "/cctv1.jpg",
+      notes: "Security team responded. Suspect apprehended.",
     },
     {
       id: "ALT-2024-004",
@@ -86,8 +105,8 @@ export default function Alerts() {
       threatScore: 65,
       status: "false_alarm",
       assignedTo: "Officer Davis",
-      imageUrl: "/placeholder.svg",
-      notes: "False positive - was a realistic toy prop."
+      imageUrl: "/cctv2.png",
+      notes: "False positive - was a realistic toy prop.",
     },
     {
       id: "ALT-2024-005",
@@ -98,8 +117,8 @@ export default function Alerts() {
       confidence: 89,
       threatScore: 80,
       status: "pending",
-      imageUrl: "/placeholder.svg"
-    }
+      imageUrl: "/cctv3.png",
+    },
   ];
 
   const getSeverityLevel = (threatScore: number) => {
@@ -111,33 +130,48 @@ export default function Alerts() {
   const getSeverityColor = (threatScore: number) => {
     const level = getSeverityLevel(threatScore);
     switch (level) {
-      case "high": return "destructive";
-      case "medium": return "warning";
-      default: return "secondary";
+      case "high":
+        return "destructive";
+      case "medium":
+        return "warning";
+      default:
+        return "secondary";
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "confirmed": return "destructive";
-      case "investigating": return "warning";
-      case "false_alarm": return "secondary";
-      default: return "default";
+      case "confirmed":
+        return "destructive";
+      case "investigating":
+        return "warning";
+      case "false_alarm":
+        return "secondary";
+      default:
+        return "default";
     }
   };
 
-  const filteredAlerts = alerts.filter(alert => {
-    const matchesStatus = selectedStatus === "all" || alert.status === selectedStatus;
-    const matchesSeverity = selectedSeverity === "all" || getSeverityLevel(alert.threatScore) === selectedSeverity;
-    const matchesSearch = searchTerm === "" || 
+  const filteredAlerts = alerts.filter((alert) => {
+    const matchesStatus =
+      selectedStatus === "all" || alert.status === selectedStatus;
+    const matchesSeverity =
+      selectedSeverity === "all" ||
+      getSeverityLevel(alert.threatScore) === selectedSeverity;
+    const matchesSearch =
+      searchTerm === "" ||
       alert.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       alert.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
       alert.weaponType.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     return matchesStatus && matchesSeverity && matchesSearch;
   });
 
-  const updateAlertStatus = (alertId: string, newStatus: Alert["status"], assignedTo?: string) => {
+  const updateAlertStatus = (
+    alertId: string,
+    newStatus: Alert["status"],
+    assignedTo?: string
+  ) => {
     // In real app, this would make an API call
     console.log(`Updating alert ${alertId} to ${newStatus}`, { assignedTo });
   };
@@ -147,12 +181,16 @@ export default function Alerts() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Alert Management</h1>
-          <p className="text-muted-foreground">Review and respond to weapon detection alerts</p>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Alert Management
+          </h1>
+          <p className="text-muted-foreground">
+            Review and respond to weapon detection alerts
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="destructive" className="animate-pulse">
-            {alerts.filter(a => a.status === "pending").length} Pending Review
+            {alerts.filter((a) => a.status === "pending").length} Pending Review
           </Badge>
         </div>
       </div>
@@ -172,12 +210,14 @@ export default function Alerts() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Review</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Pending Review
+            </CardTitle>
             <Clock className="h-4 w-4 text-warning" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-warning">
-              {alerts.filter(a => a.status === "pending").length}
+              {alerts.filter((a) => a.status === "pending").length}
             </div>
             <p className="text-xs text-muted-foreground">Requires attention</p>
           </CardContent>
@@ -185,12 +225,14 @@ export default function Alerts() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Confirmed Threats</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Confirmed Threats
+            </CardTitle>
             <AlertTriangle className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-destructive">
-              {alerts.filter(a => a.status === "confirmed").length}
+              {alerts.filter((a) => a.status === "confirmed").length}
             </div>
             <p className="text-xs text-muted-foreground">Verified incidents</p>
           </CardContent>
@@ -203,7 +245,7 @@ export default function Alerts() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {alerts.filter(a => a.status === "false_alarm").length}
+              {alerts.filter((a) => a.status === "false_alarm").length}
             </div>
             <p className="text-xs text-muted-foreground">Accuracy: 80%</p>
           </CardContent>
@@ -231,7 +273,7 @@ export default function Alerts() {
                 />
               </div>
             </div>
-            
+
             <Select value={selectedStatus} onValueChange={setSelectedStatus}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Filter by status" />
@@ -245,7 +287,10 @@ export default function Alerts() {
               </SelectContent>
             </Select>
 
-            <Select value={selectedSeverity} onValueChange={setSelectedSeverity}>
+            <Select
+              value={selectedSeverity}
+              onValueChange={setSelectedSeverity}
+            >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Filter by severity" />
               </SelectTrigger>
@@ -281,7 +326,10 @@ export default function Alerts() {
             </TableHeader>
             <TableBody>
               {filteredAlerts.map((alert) => (
-                <TableRow key={alert.id} className="cursor-pointer hover:bg-muted/50">
+                <TableRow
+                  key={alert.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                >
                   <TableCell className="font-mono">{alert.id}</TableCell>
                   <TableCell className="text-sm">
                     {new Date(alert.timestamp).toLocaleString()}
@@ -300,7 +348,9 @@ export default function Alerts() {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <Badge variant={getSeverityColor(alert.threatScore) as any}>
+                      <Badge
+                        variant={getSeverityColor(alert.threatScore) as any}
+                      >
                         {alert.threatScore}%
                       </Badge>
                       <span className="text-sm text-muted-foreground">
@@ -320,15 +370,17 @@ export default function Alerts() {
                         <span className="text-sm">{alert.assignedTo}</span>
                       </div>
                     ) : (
-                      <span className="text-sm text-muted-foreground">Unassigned</span>
+                      <span className="text-sm text-muted-foreground">
+                        Unassigned
+                      </span>
                     )}
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-1">
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
                             onClick={() => setSelectedAlert(alert)}
                           >
@@ -337,16 +389,20 @@ export default function Alerts() {
                         </DialogTrigger>
                         <DialogContent className="max-w-2xl">
                           <DialogHeader>
-                            <DialogTitle>Alert Details - {alert.id}</DialogTitle>
+                            <DialogTitle>
+                              Alert Details - {alert.id}
+                            </DialogTitle>
                           </DialogHeader>
                           <div className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                               <div>
-                                <h4 className="font-medium mb-2">Detection Image</h4>
+                                <h4 className="font-medium mb-2">
+                                  Detection Image
+                                </h4>
                                 <div className="relative bg-muted rounded-lg aspect-video">
-                                  <img 
-                                    src="/placeholder.svg" 
-                                    alt="Detection" 
+                                  <img
+                                    src="/placeholder.svg"
+                                    alt="Detection"
                                     className="w-full h-full object-cover rounded-lg"
                                   />
                                   {/* Mock detection box */}
@@ -357,36 +413,54 @@ export default function Alerts() {
                                   </div>
                                 </div>
                               </div>
-                              
+
                               <div className="space-y-4">
                                 <div>
-                                  <h4 className="font-medium mb-2">Alert Information</h4>
+                                  <h4 className="font-medium mb-2">
+                                    Alert Information
+                                  </h4>
                                   <div className="space-y-2 text-sm">
                                     <div className="flex justify-between">
-                                      <span className="text-muted-foreground">Camera:</span>
+                                      <span className="text-muted-foreground">
+                                        Camera:
+                                      </span>
                                       <span>{alert.cameraId}</span>
                                     </div>
                                     <div className="flex justify-between">
-                                      <span className="text-muted-foreground">Location:</span>
+                                      <span className="text-muted-foreground">
+                                        Location:
+                                      </span>
                                       <span>{alert.location}</span>
                                     </div>
                                     <div className="flex justify-between">
-                                      <span className="text-muted-foreground">Weapon Type:</span>
+                                      <span className="text-muted-foreground">
+                                        Weapon Type:
+                                      </span>
                                       <span>{alert.weaponType}</span>
                                     </div>
                                     <div className="flex justify-between">
-                                      <span className="text-muted-foreground">Confidence:</span>
+                                      <span className="text-muted-foreground">
+                                        Confidence:
+                                      </span>
                                       <span>{alert.confidence}%</span>
                                     </div>
                                     <div className="flex justify-between">
-                                      <span className="text-muted-foreground">Threat Score:</span>
-                                      <Badge variant={getSeverityColor(alert.threatScore) as any}>
+                                      <span className="text-muted-foreground">
+                                        Threat Score:
+                                      </span>
+                                      <Badge
+                                        variant={
+                                          getSeverityColor(
+                                            alert.threatScore
+                                          ) as any
+                                        }
+                                      >
                                         {alert.threatScore}%
                                       </Badge>
                                     </div>
                                   </div>
                                 </div>
-                                
+
                                 {alert.notes && (
                                   <div>
                                     <h4 className="font-medium mb-2">Notes</h4>
@@ -395,22 +469,26 @@ export default function Alerts() {
                                     </p>
                                   </div>
                                 )}
-                                
+
                                 <div className="flex gap-2 pt-4">
-                                  <Button 
-                                    variant="destructive" 
-                                    size="sm" 
+                                  <Button
+                                    variant="destructive"
+                                    size="sm"
                                     className="flex-1"
-                                    onClick={() => updateAlertStatus(alert.id, "confirmed")}
+                                    onClick={() =>
+                                      updateAlertStatus(alert.id, "confirmed")
+                                    }
                                   >
                                     <Check className="h-3 w-3 mr-1" />
                                     Confirm Threat
                                   </Button>
-                                  <Button 
-                                    variant="outline" 
-                                    size="sm" 
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
                                     className="flex-1"
-                                    onClick={() => updateAlertStatus(alert.id, "false_alarm")}
+                                    onClick={() =>
+                                      updateAlertStatus(alert.id, "false_alarm")
+                                    }
                                   >
                                     <X className="h-3 w-3 mr-1" />
                                     False Alarm
@@ -421,20 +499,24 @@ export default function Alerts() {
                           </div>
                         </DialogContent>
                       </Dialog>
-                      
+
                       {alert.status === "pending" && (
                         <>
-                          <Button 
-                            variant="destructive" 
+                          <Button
+                            variant="destructive"
                             size="sm"
-                            onClick={() => updateAlertStatus(alert.id, "confirmed")}
+                            onClick={() =>
+                              updateAlertStatus(alert.id, "confirmed")
+                            }
                           >
                             <Check className="h-3 w-3" />
                           </Button>
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
-                            onClick={() => updateAlertStatus(alert.id, "false_alarm")}
+                            onClick={() =>
+                              updateAlertStatus(alert.id, "false_alarm")
+                            }
                           >
                             <X className="h-3 w-3" />
                           </Button>
@@ -446,11 +528,13 @@ export default function Alerts() {
               ))}
             </TableBody>
           </Table>
-          
+
           {filteredAlerts.length === 0 && (
             <div className="text-center py-8">
               <AlertTriangle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">No alerts match your current filters</p>
+              <p className="text-muted-foreground">
+                No alerts match your current filters
+              </p>
             </div>
           )}
         </CardContent>
